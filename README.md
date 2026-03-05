@@ -2,6 +2,9 @@
 
 **Currency Converter** is a modern Next.js 16+ web app for real-time currency conversion and historical rate charts.
 
+🌐 **Live Demo:**  
+https://vitalina-korchova.github.io/currency-converter/
+
 ## 🚀 Tech Stack
 
 - Next.js 16+ & React 18
