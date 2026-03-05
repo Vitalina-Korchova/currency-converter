@@ -12,7 +12,7 @@ export const currencyApi = createApi({
   }),
 
   endpoints: (builder) => ({
-    getSupporteCurrencies: builder.query<AllSupportedCurrenciesResponse, void>({
+    getSupportedCurrencies: builder.query<AllSupportedCurrenciesResponse, void>({
       query: () => ({
         url: `/currencies?api_key=${process.env.NEXT_PUBLIC_API_KEY}`,
         method: "GET",
@@ -36,5 +36,5 @@ export const currencyApi = createApi({
   }),
 });
 
-export const { useGetSupporteCurrenciesQuery, useConvertCurrencyQuery } =
+export const { useGetSupportedCurrenciesQuery, useConvertCurrencyQuery } =
   currencyApi;

@@ -58,6 +58,19 @@ export const currencySlice = createSlice({
     setError(state, action: PayloadAction<string | null>) {
       state.error = action.payload;
     },
+    hydrateHistory(state) {
+      if (typeof window !== "undefined") {
+        const data = localStorage.getItem("currency_history");
+        if (data) {
+          try {
+            state.history = JSON.parse(data);
+          } catch (e) {
+            state.history = [];
+          }
+        }
+        state.isHydrated = true;
+      }
+    },
   },
 });
 
@@ -67,6 +80,7 @@ export const {
   clearHistory,
   setLoading,
   setError,
+  hydrateHistory,
 } = currencySlice.actions;
 
 export default currencySlice.reducer;
