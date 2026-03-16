@@ -28,7 +28,7 @@ import gsap from "gsap";
 
 export function CurrencyConverter() {
   const dispatch = useDispatch();
-  const [mounted, setMounted] = useState(false);
+  // const [mounted, setMounted] = useState(false);
   const containerCurrencyConverterRef = useRef<HTMLDivElement>(null);
   const rateCardRef = useRef<HTMLDivElement>(null);
 
@@ -37,10 +37,11 @@ export function CurrencyConverter() {
   const [amount, setAmount] = useState("1.00");
   const [debouncedAmount, setDebouncedAmount] = useState(amount);
 
-  useEffect(() => {
-    setMounted(true);
-    dispatch({ type: "currency/hydrateHistory" });
-  }, [dispatch]);
+  // useEffect(() => {
+  //   //костиль
+  //   setMounted(true);
+  //   dispatch({ type: "currency/hydrateHistory" });
+  // }, [dispatch]);
 
   const {
     data: currenciesData,
@@ -85,7 +86,7 @@ export function CurrencyConverter() {
   }, [convertData, dispatch]);
 
   useEffect(() => {
-    if (mounted && !isLoadingCurrencies) {
+    if (containerCurrencyConverterRef.current && !isLoadingCurrencies) {
       const ctx = gsap.context(() => {
         gsap.fromTo(
           ".fade-up",
@@ -103,7 +104,7 @@ export function CurrencyConverter() {
 
       return () => ctx.revert();
     }
-  }, [mounted, isLoadingCurrencies]);
+  }, [isLoadingCurrencies]);
 
   useEffect(() => {
     if (convertData && !isConverting && rateCardRef.current) {
@@ -132,10 +133,10 @@ export function CurrencyConverter() {
         </CardDescription>
       </CardHeader>
       <CardContent ref={containerCurrencyConverterRef}>
-        {!mounted ? (
-          <div className="flex flex-col gap-6 py-12 items-center justify-center opacity-50">
-            <Loader2 className="animate-spin size-8 text-primary" />
-            <p className="text-sm font-medium">Preparing converter...</p>
+        {isLoadingCurrencies && !currenciesError ? (
+          <div className="flex items-center gap-3 py-2 text-muted-foreground animate-pulse">
+            <Loader2 className="size-4 animate-spin" />
+            <span className="text-sm">Initializing currency data...</span>
           </div>
         ) : (
           <>
@@ -286,13 +287,6 @@ export function CurrencyConverter() {
                       </p>
                     </div>
                   </div>
-                </div>
-              )}
-
-              {isLoadingCurrencies && !currenciesError && (
-                <div className="flex items-center gap-3 py-2 text-muted-foreground animate-pulse">
-                  <Loader2 className="size-4 animate-spin" />
-                  <span className="text-sm">Initializing currency data...</span>
                 </div>
               )}
             </div>
